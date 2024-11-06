@@ -47,6 +47,9 @@ app.post('/delete', function (req, res) {
     const stmt = db.prepare('DELETE FROM todo where id = (?)')
     stmt.run(req.body.id)
     stmt.finalize()
+    const stmt = db.prepare('DELETE FROM todo where id = (?)')
+    stmt.run(req.body.id)
+    stmt.finalize()
 })
 
 // Start the web server
