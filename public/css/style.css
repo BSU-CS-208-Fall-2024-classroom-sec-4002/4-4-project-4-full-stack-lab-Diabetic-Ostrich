@@ -1,3 +1,17 @@
+h1{
+    color: green;
+}
 body{
-    background-color: hotpink;
+    background-color: magenta;
+}
+p{
+    color: yellow;
+}
+form{
+    background: Bisque;
+    color: cyan;
+}
+input{
+    background: orange;
+    color: blue;
 }

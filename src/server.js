@@ -19,23 +19,34 @@ app.set('view engine', 'pug')
 app.use(express.urlencoded({ extended: false }))
 
 app.get('/', function (req, res) {
-    //TODO You will need to do a SQL select here
-    //TODO You will need to update the code below!
-    console.log('GET called')
-    res.render('index')
+    const local = { tasks: [] }
 
+   
+    db.all('SELECT id, task FROM todo', function (err, rows) {
+        if (err) {
+            console.log(err)
+        } else {
+            
+            local.tasks = rows.map(row => ({ id: row.id, task: row.task }))
+            res.render('index', local) //moved render down so that page renders after db is ubdated
+        }
+    })
+
+    console.log('GET called')
 })
 
 app.post('/', function (req, res) {
     console.log('adding todo item')
-    //TODO You will need to to do a SQL Insert here
-
+    const stmt = db.prepare('INSERT INTO todo (task) VALUES (?)')
+    stmt.run(req.body.todo)
+    stmt.finalize()
 })
 
 app.post('/delete', function (req, res) {
     console.log('deleting todo item')
-    //TODO you will need to delete here
-
+    const stmt = db.prepare('DELETE FROM todo where id = (?)')
+    stmt.run(req.body.id)
+    stmt.finalize()
 })
 
 // Start the web server
